@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PREPARING
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  PAYZONE
+  COD
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  UNPAID
+  FAILED
+}
+
+enum DevicePlatform {
+  ANDROID
+  IOS
+}
+
+enum NotificationStatus {
+  SENT
+  FAILED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  phone     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  orders    Order[]
+  devices   Device[]
+  notifications NotificationLog[]
+}
+
+model Product {
+  id         String      @id @default(cuid())
+  name       String
+  description String?
+  pricePerKg Decimal
+  active     Boolean     @default(true)
+  items      OrderItem[]
+}
+
+model DeliverySlot {
+  id        String   @id @default(cuid())
+  label     String
+  startTime String
+  endTime   String
+  active    Boolean  @default(true)
+  orders    Order[]
+}
+
+model Order {
+  id                    String        @id @default(cuid())
+  userId                String
+  status                OrderStatus   @default(PENDING)
+  city                  String
+  deliveryDate          DateTime
+  deliverySlotId        String
+  addressText           String
+  lat                   Float?
+  lng                   Float?
+  deliveryFee           Decimal
+  subtotal              Decimal
+  total                 Decimal
+  paymentMethod         PaymentMethod
+  paymentStatus         PaymentStatus
+  payzoneTransactionId  String?
+  payzoneOrderRef       String?
+  createdAt             DateTime      @default(now())
+  user                  User          @relation(fields: [userId], references: [id])
+  deliverySlot          DeliverySlot  @relation(fields: [deliverySlotId], references: [id])
+  items                 OrderItem[]
+  notifications         NotificationLog[]
+}
+
+model OrderItem {
+  id          String   @id @default(cuid())
+  orderId     String
+  productId   String
+  quantityKg  Int
+  unitPrice   Decimal
+  optionsJson Json?
+  order       Order    @relation(fields: [orderId], references: [id])
+  product     Product  @relation(fields: [productId], references: [id])
+}
+
+model Setting {
+  key   String @id
+  value Json
+}
+
+model Device {
+  id         String         @id @default(cuid())
+  userId     String
+  token      String         @unique
+  platform   DevicePlatform
+  lastSeenAt DateTime       @default(now())
+  createdAt  DateTime       @default(now())
+  user       User           @relation(fields: [userId], references: [id])
+}
+
+model NotificationLog {
+  id           String             @id @default(cuid())
+  userId        String?
+  orderId       String?
+  title         String
+  body          String
+  dataJson      Json?
+  status        NotificationStatus
+  errorMessage  String?
+  createdAt     DateTime @default(now())
+  user          User?    @relation(fields: [userId], references: [id])
+  order         Order?   @relation(fields: [orderId], references: [id])
+}
