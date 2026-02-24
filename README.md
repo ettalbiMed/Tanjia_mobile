@@ -17,6 +17,9 @@ npm run prisma:seed
 npm run dev
 ```
 
+> Prisma lit aussi `backend_node/prisma/.env` (fallback). Si vous n'avez pas encore créé `backend_node/.env`, ce fichier fournit une URL MySQL de dev pour éviter l'erreur `P1012`.
+
+
 ### Variables env backend (exemple)
 ```env
 DATABASE_URL=mysql://root:root@localhost:3306/bayt_tanjia
@@ -35,6 +38,8 @@ cd admin_elweb
 npm install
 API_BASE_URL=http://localhost:4000 npm run dev
 ```
+
+
 
 ## 3) Mobile Flutter
 ```bash
