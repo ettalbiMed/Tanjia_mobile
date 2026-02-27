@@ -6,6 +6,10 @@ Structure:
 - `admin_elweb` : panneau admin web Express + EJS
 - `docs` : documentation architecture
 
+
+## Guide de test complet
+- Voir `docs/testing-guide.md` pour un parcours pas à pas **de A à Z** (backend, Elweb, mobile, push, Payzone mock).
+
 ## 1) Backend
 ```bash
 cd backend_node
