@@ -10,6 +10,7 @@ Structure:
 ## Guide de test complet
 - Voir `docs/testing-guide.md` pour un parcours pas à pas **de A à Z** (backend, Elweb, mobile, push, Payzone mock).
 
+
 ## 1) Backend
 ```bash
 cd backend_node
