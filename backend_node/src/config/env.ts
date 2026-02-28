@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -7,6 +8,19 @@ const currentDirPath = path.dirname(currentFilePath);
 const backendRootEnvPath = path.resolve(currentDirPath, '../../.env');
 
 dotenv.config({ path: backendRootEnvPath });
+
+const rawEnvFile = fs.existsSync(backendRootEnvPath) ? fs.readFileSync(backendRootEnvPath, 'utf8') : '';
+const hasEscapedNewLines = rawEnvFile.includes('\\n');
+
+if (hasEscapedNewLines) {
+  const repairedEnvContent = rawEnvFile.replace(/\\n/g, '\n');
+  const repairedVars = dotenv.parse(repairedEnvContent);
+  for (const [key, value] of Object.entries(repairedVars)) {
+    if (!process.env[key]) {
+      process.env[key] = value;
+    }
+  }
+}
 
 type EnvValue = string | undefined;
 

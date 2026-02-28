@@ -276,6 +276,7 @@ cd backend_node && npx prisma studio
 
 2. **Admin login refuse le mot de passe**
    - vérifier que le backend lit bien `backend_node/.env`
+   - vérifier que votre fichier `.env` contient de **vraies retours à la ligne** (pas des `\n` littéraux dans une seule ligne)
    - si vous utilisez `ADMIN_PASSWORD_HASH`, régénérer le hash bcrypt
    - en local, vous pouvez définir `ADMIN_PASSWORD` pour éviter les erreurs de hash
    - vérifier `ADMIN_USERNAME`

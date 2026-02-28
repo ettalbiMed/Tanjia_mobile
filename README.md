@@ -24,6 +24,8 @@ npm run dev
 > Prisma lit aussi `backend_node/prisma/.env` (fallback). Si vous n'avez pas encore créé `backend_node/.env`, ce fichier fournit une URL MySQL de dev pour éviter l'erreur `P1012`.
 
 
+> ⚠️ Assurez-vous que le fichier `.env` est sur plusieurs lignes réelles (pas une seule ligne avec des `\n` littéraux).
+
 ### Variables env backend (exemple)
 ```env
 DATABASE_URL=mysql://root:root@localhost:3306/bayt_tanjia
